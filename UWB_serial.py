@@ -282,7 +282,7 @@ def runUWB(kal_q, port, mode, max_loop, plot):
         filehandleT0 = open("./T0.csv", "r")
         filehandleT1 = open("./T1.csv", "r")
     elif mode == REAL_TIME:
-        ser = UWB_Initial()
+        ser = UWB_Initial(port)
     # Main loop
     i = 0
     while True:
@@ -347,7 +347,7 @@ def runUWB(kal_q, port, mode, max_loop, plot):
         # runtime = time.perf_counter()
         # print(runtime-t0)
         if plot and i % 10 == 0:
-            monitor(loc1_record)
+            monitor(loc0_record)
         i = i + 1
 
         if i > max_loop and mode == WRITE_MES:
@@ -400,7 +400,7 @@ def route_planning(arg):
         time.sleep(2)
         print(arg, loc0_record.t[-1], '  ', loc0_record.record[-1])
 
-
+'''
 if __name__ == '__main__':
     REAL_TIME = 0
     WRITE_MES = 1
@@ -412,16 +412,20 @@ if __name__ == '__main__':
     # anchor_pos = np.mat([[0, 0, 2000], [1000, 0, 2000], [1000, 1000, 2000], [0, 1000, 3800]])
 
     # 基站的坐标
-    anchor_pos = 1000 * np.mat([[0, 0.5721, 2.6935, 2.1214],
-                                [0, 2.1912, 0, 2.1912],
-                                [0, 0, 0, 0]])
-    mode = READ_MES  # UWB 工作模式
+    anchor_pos = np.mat([[0, 3110, 3110, 0],
+                                [0, 0, 6920, 6920],
+                                [2280, 2280, 2280, 2280]])
+    mode = REAL_TIME   # UWB 工作模式
 
-    global loc0_record, loc1_record  # 车子（loc0_record）与人（loc0_record）的坐标，最后的100次记录
 
+
+     # 车子（loc0_record）与人（loc0_record）的坐标，最后的100次记录
+
+    global loc0_record, loc1_record
     t1 = threading.Thread(target=runUWB, args=(q, port, mode, max_loop, plot))  # UWB线程
     t2 = threading.Thread(target=route_planning, args=("t2",))  # 路径规划线程
     t1.start()
-    t2.start()
+    #t2.start()
 
     # runUWB(q, port, mode, max_loop, plot)
+'''
